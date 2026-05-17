@@ -1,455 +1,54 @@
+
+<!-- Admin.html - لوحة تحكم إدارة الانخراطات -->
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <link rel="icon" type="image/png" href="https://drive.google.com/thumbnail?id=1mN39uinRmOQGj04B5OfC9ZTPtlXyF1mb&sz=256">
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>لجان جمعية الجواهر بقمار</title>
-  <meta name="description" content="صفحة مخصصة للجان جمعية الجواهر بقمار وأنشطتها ومعرض الصور الخاص بها." />
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+  <base target="_top">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
-    :root {
-      --primary: #299E9D;
-      --primary-dark: #1F7E7D;
-      --soft-accent: #7ED6D1;
-      --highlight: #F59E0B;
-      --text: #222222;
-      --section-bg: #F5F5F5;
-      --white: #FFFFFF;
-      --muted: #666666;
-      --shadow: 0 18px 45px rgba(41, 158, 157, .18);
-      --radius: 24px;
-    }
-    * { box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
-    body { margin: 0; font-family: "Noto Kufi Arabic", system-ui, sans-serif; color: var(--text); background: var(--white); line-height: 1.8; }
-    a { color: inherit; text-decoration: none; }
-    img { max-width: 100%; display: block; }
-    .container { width: min(1180px, calc(100% - 32px)); margin: auto; }
-
-    .topbar { background: var(--primary-dark); color: var(--white); font-size: 14px; padding: 10px 0; }
-    .topbar .container, .nav .container { display: flex; align-items: center; justify-content: space-between; gap: 18px; flex-wrap: wrap; }
-    .nav { position: sticky; top: 0; z-index: 50; background: rgba(255,255,255,.94); backdrop-filter: blur(14px); border-bottom: 1px solid rgba(41,158,157,.12); padding: 14px 0; }
-    .brand { display: flex; align-items: center; gap: 12px; }
-    .logo { width: 62px; height: 62px; border-radius: 18px; object-fit: cover; background: var(--section-bg); border: 2px solid rgba(41,158,157,.25); box-shadow: var(--shadow); }
-    .brand h1 { margin: 0; font-size: 18px; line-height: 1.35; }
-    .brand span { display: block; color: var(--muted); font-size: 12px; font-weight: 400; }
-    .menu { display: flex; gap: 18px; font-size: 14px; font-weight: 800; }
-    .menu a:hover { color: var(--primary); }
-    .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; border: 0; border-radius: 999px; padding: 12px 22px; font-weight: 800; cursor: pointer; transition: .25s; font-family: inherit; }
-    .btn-primary { background: var(--primary); color: var(--white); box-shadow: var(--shadow); }
-    .btn-primary:hover { background: var(--primary-dark); transform: translateY(-2px); }
-    .btn-outline { border: 1px solid rgba(41,158,157,.35); color: var(--primary); background: var(--white); }
-    .btn-gold { background: var(--highlight); color: var(--white); }
-
-    .hero { position: relative; overflow: hidden; background: radial-gradient(circle at 12% 18%, rgba(126,214,209,.38), transparent 30%), radial-gradient(circle at 88% 20%, rgba(245,158,11,.16), transparent 28%), linear-gradient(180deg, #F8FFFF 0%, #FFFFFF 100%); padding: 84px 0 60px; }
-    .hero-grid { display: grid; grid-template-columns: 1.05fr .95fr; gap: 40px; align-items: center; }
-    .eyebrow { display: inline-flex; align-items: center; gap: 8px; padding: 8px 14px; border-radius: 999px; background: rgba(126,214,209,.25); color: var(--primary-dark); font-weight: 800; font-size: 14px; }
-    .hero h2 { margin: 18px 0; font-size: clamp(34px, 5vw, 58px); line-height: 1.25; letter-spacing: -1px; }
-    .hero h2 span { color: var(--primary); }
-    .hero p { color: var(--muted); font-size: 18px; max-width: 650px; }
-    .hero-actions { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 28px; }
-    .hero-panel { background: var(--white); border-radius: 34px; padding: 24px; box-shadow: var(--shadow); border: 1px solid rgba(41,158,157,.12); }
-    .hero-panel-inner { min-height: 360px; border-radius: 28px; background: linear-gradient(rgba(41,158,157,.10), rgba(126,214,209,.22)), url('https://drive.google.com/thumbnail?id=15wGXcoOhhcZp0weVYGA5ubJH36m_ibx6&sz=w1000') center/cover; position: relative; overflow: hidden; }
-    .floating-box { position: absolute; right: 22px; bottom: 22px; left: 22px; background: rgba(255,255,255,.92); backdrop-filter: blur(10px); border-radius: 22px; padding: 18px; display: grid; gap: 8px; }
-    .floating-box strong { color: var(--primary); font-size: 24px; }
-    .badge-highlight { color: var(--highlight); font-weight: 900; }
-
-    .quick-nav { transform: translateY(-26px); position: relative; z-index: 5; }
-    .quick-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 14px; background: var(--white); border-radius: var(--radius); padding: 16px; box-shadow: var(--shadow); border: 1px solid rgba(41,158,157,.12); }
-    .quick-link { text-align: center; padding: 14px 10px; border-radius: 18px; background: var(--section-bg); font-weight: 900; transition: .25s; }
-    .quick-link:hover { color: var(--white); background: var(--primary); transform: translateY(-4px); }
-
-    section { padding: 72px 0; }
-    .section-head { text-align: center; max-width: 780px; margin: 0 auto 42px; }
-    .section-head h3 { margin: 10px 0 12px; font-size: clamp(28px, 4vw, 42px); line-height: 1.4; }
-    .section-head p { color: var(--muted); margin: 0; }
-
-    .committee-tabs-section { background: var(--section-bg); }
-    .committee-tabs { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin-bottom: 28px; }
-    .tab-btn { border: 1px solid rgba(41,158,157,.25); background: var(--white); color: var(--primary-dark); border-radius: 999px; padding: 12px 18px; font-family: inherit; font-weight: 900; cursor: pointer; transition: .25s; }
-    .tab-btn.is-active, .tab-btn:hover { background: var(--primary); color: var(--white); box-shadow: var(--shadow); transform: translateY(-2px); }
-    .committee-panel { display: none; background: var(--white); border: 1px solid rgba(41,158,157,.12); border-radius: 30px; padding: 30px; box-shadow: 0 10px 30px rgba(34,34,34,.06); }
-    .committee-panel.is-active { display: block; animation: fadeIn .22s ease-out; }
-    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-    .panel-grid { display: grid; grid-template-columns: .8fr 1.2fr; gap: 26px; align-items: start; }
-    .panel-icon { width: 86px; height: 86px; border-radius: 26px; display: grid; place-items: center; background: rgba(126,214,209,.25); color: var(--primary-dark); margin-bottom: 16px; }
-    .panel-icon svg { width: 48px; height: 48px; fill: none; stroke: currentColor; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
-    .committee-panel h4 { margin: 0 0 10px; color: var(--primary-dark); font-size: 28px; }
-    .committee-panel p { margin: 0 0 16px; color: var(--muted); }
-    .activity-list { display: grid; gap: 12px; margin: 0; padding: 0; list-style: none; }
-    .activity-list li { background: #FBFBFB; border: 1px solid rgba(41,158,157,.12); border-radius: 16px; padding: 13px 16px; }
-    .activity-list li::before { content: "✓"; color: var(--highlight); font-weight: 900; margin-left: 8px; }
-
-    .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
-    .card { background: var(--white); border: 1px solid rgba(41,158,157,.12); border-radius: var(--radius); padding: 26px; box-shadow: 0 10px 30px rgba(34,34,34,.06); transition: .25s; scroll-margin-top: 120px; }
-    .card:hover { transform: translateY(-6px); box-shadow: var(--shadow); }
-    .icon { width: 60px; height: 60px; border-radius: 18px; display: grid; place-items: center; background: rgba(126,214,209,.25); color: var(--primary); font-size: 28px; margin-bottom: 16px; }
-    .card:nth-child(even) .icon { background: rgba(245,158,11,.15); color: var(--highlight); }
-    .icon svg { width: 34px; height: 34px; fill: none; stroke: currentColor; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
-    .card h4 { margin: 0 0 10px; font-size: 21px; color: var(--primary-dark); }
-    .card p { margin: 0 0 16px; color: var(--muted); }
-    .card ul { margin: 0; padding-right: 20px; }
-    .mini-actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 18px; }
-    .mini-btn { border: 0; border-radius: 999px; padding: 9px 14px; font-family: inherit; font-weight: 900; background: rgba(41,158,157,.10); color: var(--primary-dark); cursor: pointer; }
-    .mini-btn:hover { background: var(--primary); color: var(--white); }
-
-    .activities-map { background: var(--section-bg); }
-    .activity-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
-    .activity-box { background: var(--white); border-radius: 22px; padding: 22px; border: 1px solid rgba(41,158,157,.12); box-shadow: 0 10px 30px rgba(34,34,34,.05); }
-    .activity-box strong { display: block; color: var(--primary-dark); font-size: 18px; margin-bottom: 8px; }
-    .activity-box span { color: var(--muted); font-size: 14px; }
-
-    .gallery { display: grid; grid-template-columns: 1.2fr .8fr .8fr; grid-auto-rows: 220px; gap: 18px; }
-    .gallery-item { border-radius: 24px; background-size: cover; background-position: center; box-shadow: 0 10px 28px rgba(34,34,34,.08); position: relative; overflow: hidden; cursor: pointer; }
-    .gallery-item:first-child { grid-row: span 2; }
-    .gallery-item::after { content: attr(data-title); position: absolute; right: 14px; left: 14px; bottom: 14px; border-radius: 16px; padding: 10px 12px; background: rgba(255,255,255,.88); color: var(--primary-dark); font-weight: 900; backdrop-filter: blur(8px); }
-    .gallery-item:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
-
-    .cta-band { background: linear-gradient(135deg, var(--primary-dark), var(--primary)); color: var(--white); border-radius: 36px; padding: 42px; display: grid; grid-template-columns: 1fr auto; gap: 24px; align-items: center; overflow: hidden; position: relative; }
-    .cta-band::after { content: ""; position: absolute; width: 240px; height: 240px; border-radius: 50%; border: 34px solid rgba(245,158,11,.26); left: -80px; top: -80px; }
-    .cta-band h3 { font-size: 32px; margin: 0 0 8px; }
-    .cta-band p { margin: 0; opacity: .92; }
-    .cta-band .btn { background: var(--highlight); color: var(--white); position: relative; z-index: 1; }
-
-    footer { background: #162121; color: var(--white); padding: 42px 0 18px; }
-    .footer-grid { display: grid; grid-template-columns: 1.2fr .8fr .8fr; gap: 28px; margin-bottom: 26px; }
-    footer p, footer a { color: rgba(255,255,255,.78); }
-    footer h4 { margin-top: 0; }
-    .copyright { border-top: 1px solid rgba(255,255,255,.12); padding-top: 18px; text-align: center; color: rgba(255,255,255,.65); font-size: 14px; }
-
-
-
-    .modal-activities { margin-top: 22px; padding: 18px; border-radius: 22px; background: #FBFBFB; border: 1px solid rgba(41,158,157,.12); }
-    .modal-activities h5, .modal-gallery-wrap h5 { margin: 0 0 12px; color: var(--primary-dark); font-size: 18px; }
-    .modal-gallery-wrap { margin-top: 22px; }
-    .modal-gallery-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
-    .modal-gallery-grid img { width: 100%; aspect-ratio: 1 / .72; object-fit: cover; border-radius: 16px; box-shadow: 0 8px 22px rgba(34,34,34,.08); border: 1px solid rgba(41,158,157,.10); }
-    @media (max-width: 560px) { .modal-gallery-grid { grid-template-columns: repeat(2, 1fr); } }
-
-    .modal { position: fixed; inset: 0; z-index: 999; display: none; align-items: center; justify-content: center; padding: 18px; }
-    .modal.is-open { display: flex; }
-    .modal-backdrop { position: absolute; inset: 0; background: rgba(22,33,33,.58); backdrop-filter: blur(5px); }
-    .modal-dialog { position: relative; width: min(700px, 100%); max-height: min(86vh, 760px); overflow: auto; background: var(--white); border-radius: 30px; padding: 30px; box-shadow: 0 28px 80px rgba(0,0,0,.28); border: 1px solid rgba(41,158,157,.16); animation: modalIn .22s ease-out; }
-    @keyframes modalIn { from { opacity: 0; transform: translateY(18px) scale(.98); } to { opacity: 1; transform: translateY(0) scale(1); } }
-    .modal-close { position: absolute; top: 16px; left: 16px; width: 42px; height: 42px; border: 0; border-radius: 50%; background: rgba(41,158,157,.10); color: var(--primary-dark); font-size: 24px; line-height: 1; cursor: pointer; font-family: inherit; }
-    .modal-close:hover { background: rgba(245,158,11,.18); color: var(--highlight); }
-    body.modal-open { overflow: hidden; }
-
-    @media (max-width: 900px) {
-      .hero-grid, .panel-grid, .cta-band, .footer-grid { grid-template-columns: 1fr; }
-      .quick-grid { grid-template-columns: repeat(3, 1fr); }
-      .cards { grid-template-columns: repeat(2, 1fr); }
-      .activity-grid { grid-template-columns: repeat(2, 1fr); }
-      .gallery { grid-template-columns: 1fr; grid-auto-rows: 240px; }
-      .gallery-item:first-child { grid-row: span 1; }
-      .menu { display: none; }
-    }
-    @media (max-width: 560px) {
-      .quick-grid, .cards, .activity-grid { grid-template-columns: 1fr; }
-      .hero { padding-top: 54px; }
-      .hero-panel { padding: 14px; }
-      .cta-band { padding: 28px; }
-      .topbar .container { justify-content: center; }
-    }
+    /* نفس الأنماط التي كانت موجودة في ملفك الأصلي (لم يتم تغييرها للحفاظ على الهوية) */
+    :root{--primary:#2986B0;--primary-light:#7ED6D1;--accent:#F59E0B;--dark:#222;--bg:#F5F5F5;--muted:#64748b;--border:#e5e7eb;--danger:#b91c1c;--success:#166534}*{box-sizing:border-box;font-family:Cairo,Tahoma,Arial,sans-serif}body{margin:0;background:var(--bg);color:var(--dark)}.sidebar{position:fixed;right:0;top:0;width:280px;height:100vh;background:linear-gradient(180deg,#2986B0,#1d5f7d 65%,#222);color:#fff;padding:22px;overflow-y:auto;box-shadow:0 0 25px #0002}.logo{width:112px;height:112px;object-fit:cover;border-radius:50%;display:block;margin:0 auto 16px;border:4px solid #ffffff40;background:white}.sidebar h2{text-align:center;margin:0 0 6px;font-size:22px;font-weight:800}.subtitle{text-align:center;color:#ffffffd0;font-size:13px;margin-bottom:18px}.admin-badge{background:#ffffff1a;border:1px solid #ffffff26;border-radius:14px;padding:10px;margin-bottom:14px;text-align:center}.sidebar button{width:100%;padding:13px 15px;margin-bottom:10px;background:#ffffff17;color:white;border:1px solid #ffffff20;border-radius:15px;cursor:pointer;font-size:15px;font-weight:800;text-align:right}.sidebar button:hover,.sidebar button.current{background:var(--accent);transform:translateX(-4px)}.main{margin-right:300px;padding:26px}.topbar{background:#fff;padding:18px 22px;border-radius:22px;margin-bottom:22px;display:flex;justify-content:space-between;align-items:center;gap:16px;box-shadow:0 8px 22px #0000000f}.topbar h1{margin:0;font-size:26px}.status{color:var(--muted);font-size:12px;margin-top:4px}.content{display:none;animation:fade .25s ease}.active{display:block}.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:18px;margin-bottom:22px}.card,.box{background:#fff;border-radius:22px;padding:22px;box-shadow:0 8px 22px #0000000f;border:1px solid #2986b014;margin-bottom:22px}.card{border-top:5px solid var(--primary)}.card h3{color:var(--muted);font-size:14px;margin:0 0 9px}.value{font-size:27px;font-weight:800;color:var(--accent)}.form-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px 14px}.submit,.print-btn{width:100%;padding:14px;margin-top:15px;border:0;border-radius:14px;background:linear-gradient(135deg,#2986B0,#7ED6D1);color:#fff;font-size:16px;font-weight:800;cursor:pointer}.secondary{background:linear-gradient(135deg,#F59E0B,#A86417)}.danger{background:#fee2e2!important;color:var(--danger)!important}.actions{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin:12px 0}.table-wrap{overflow-x:auto}table{width:100%;border-collapse:collapse;background:#fff;border-radius:16px;overflow:hidden}th,td{padding:12px;border-bottom:1px solid var(--border);text-align:center;font-size:14px}th{background:#2986B0;color:white}tr:nth-child(even){background:#f8fafc}.ok{background:#dcfce7;color:#166534;padding:10px;border-radius:12px;margin-top:12px}.error{background:#fee2e2;color:#b91c1c;padding:10px;border-radius:12px;margin-top:12px}.login-screen{min-height:100vh;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#2986B0,#7ED6D1)}.login-card{width:min(440px,92vw);background:white;border-radius:26px;padding:28px;box-shadow:0 22px 55px #0003;text-align:center}.app-shell{display:none}.brand-header{display:flex;align-items:center;gap:12px;margin-bottom:16px}.brand-header img{width:70px;height:70px;border-radius:50%}.brand-title{font-weight:800;font-size:20px}.brand-subtitle{color:#64748b}.mini{padding:8px 12px;border:0;border-radius:10px;color:white;background:var(--primary);font-weight:800;cursor:pointer}.search-bar{background:#fff;border-radius:22px;padding:12px 20px;margin-bottom:20px;display:flex;gap:12px;align-items:center;flex-wrap:wrap;box-shadow:0 4px 12px #00000008}.search-bar input{flex:2;min-width:200px;margin:0}.search-bar select{flex:1;min-width:150px;margin:0}@media print{.sidebar,.topbar,.no-print{display:none!important}.main{margin:0;padding:0}}@media(max-width:800px){.sidebar{position:relative;width:100%;height:auto}.main{margin-right:0;padding:16px}.topbar{display:block}}.card-badge{background:white;border-radius:16px;padding:10px;text-align:center;box-shadow:0 4px 12px #0001;margin:10px 0}.card-badge img{max-width:100px;margin:auto}
   </style>
 </head>
 <body>
-  <svg aria-hidden="true" style="position:absolute;width:0;height:0;overflow:hidden">
-    <symbol id="i-committee" viewBox="0 0 64 64"><circle cx="21" cy="20" r="7"/><circle cx="43" cy="20" r="7"/><circle cx="32" cy="38" r="8"/><path d="M9 49c2-9 7-14 13-14M55 49c-2-9-7-14-13-14M18 56c2-9 8-15 14-15s12 6 14 15"/></symbol>
-    <symbol id="i-health" viewBox="0 0 64 64"><path d="M32 10s16 17 16 31a16 16 0 0 1-32 0C16 27 32 10 32 10Z"/><path d="M32 31v15M24 39h16"/></symbol>
-    <symbol id="i-social" viewBox="0 0 64 64"><path d="M22 34 12 44c-3 3-7-1-4-4l10-10"/><path d="M42 34l10 10c3 3 7-1 4-4L46 30"/><path d="M21 31l8-8 7 7 5-5 7 7"/><path d="M25 42l4 4M32 39l4 4M39 36l4 4"/></symbol>
-    <symbol id="i-peace" viewBox="0 0 64 64"><path d="M17 34c8-10 14-10 22 0"/><path d="M9 46c7-5 14-5 22 0 7 4 14 4 24-2"/><path d="M25 24c-3-5-1-10 4-12 2 6 8 8 14 6-1 9-8 16-18 16"/><path d="M32 30v18"/></symbol>
-    <symbol id="i-youth" viewBox="0 0 64 64"><path d="M16 50V14h30v36"/><path d="M46 28h8v22"/><path d="M23 22h6M34 22h6M23 32h6M34 32h6"/><path d="M27 50V40h8v10"/></symbol>
-    <symbol id="i-media" viewBox="0 0 64 64"><rect x="10" y="16" width="44" height="32" rx="5"/><path d="M22 48l-5 8M42 48l5 8"/><path d="M24 28h16M24 36h10"/></symbol>
-    <symbol id="i-women" viewBox="0 0 64 64"><circle cx="32" cy="19" r="9"/><path d="M32 28v25M22 40h20M24 53h16"/></symbol>
-    <symbol id="i-env" viewBox="0 0 64 64"><path d="M16 42c18 2 30-7 35-27-18-1-31 6-35 27Z"/><path d="M16 42c8-12 18-18 31-24"/><path d="M15 47c9 6 21 6 31 0"/></symbol>
-    <symbol id="i-gallery" viewBox="0 0 64 64"><rect x="10" y="14" width="44" height="36" rx="5"/><circle cx="24" cy="27" r="5"/><path d="M15 45l12-12 9 8 7-7 8 11"/></symbol>
-  </svg>
+<div id="loginScreen" class="login-screen"><div class="login-card"><img class="logo brand-logo"><h1>دخول الإدارة</h1><p>جمعية الجواهر بقمار<br>منصة إدارة الانخراطات</p><input id="loginUsername" placeholder="اسم الدخول"><input id="loginPassword" type="password" placeholder="كلمة المرور"><button class="submit" onclick="login()">تسجيل الدخول</button><div id="loginMsg"></div></div></div>
+<div id="appShell" class="app-shell"><div class="sidebar"><img class="logo brand-logo"><h2>جمعية الجواهر بقمار</h2><div class="subtitle">إدارة الانخراطات والبطاقات</div><div class="admin-badge" id="adminBadge"></div><button class="current" onclick="showTab('dashboard',this)">لوحة التحكم</button><button onclick="showTab('requests',this);loadRequests()">طلبات الانخراط</button><button onclick="showTab('members',this);loadMembers()">الأعضاء المسجلون</button><button class="super-only" onclick="showTab('admins',this);loadAdmins()">إدارة الأدمن</button><button onclick="logout()">تسجيل الخروج</button></div>
+<div class="main"><div class="topbar"><div><h1>لوحة إدارة الانخراطات</h1><div class="status" id="syncStatus">النظام متصل</div></div><button class="print-btn secondary" onclick="loadReport(true)">تحديث</button></div>
+<div id="dashboard" class="content active"><div class="brand-header"><img class="brand-logo"><div><div class="brand-title">جمعية الجواهر بقمار</div><div class="brand-subtitle">ملخص الانخراطات</div></div></div><div class="cards"><div class="card"><h3>إجمالي الأعضاء</h3><div class="value" id="totalMembers">0</div></div><div class="card"><h3>نشط</h3><div class="value" id="activeMembers">0</div></div><div class="card"><h3>قيد الانتظار</h3><div class="value" id="pendingRequests">0</div></div><div class="card"><h3>الإيرادات</h3><div class="value" id="totalValue">0 دج</div></div></div><div class="box"><h2>الطلبات الجديدة</h2><div id="pendingTable" class="table-wrap"></div></div><div class="box"><h2>آخر الأعضاء المسجلين</h2><div id="recentMembersTable" class="table-wrap"></div></div></div>
+<div id="requests" class="content"><div class="box"><h2>طلبات الانخراط</h2><button class="submit secondary" onclick="loadRequests()">تحديث</button><div id="requestsTable" class="table-wrap"></div></div></div>
+<div id="members" class="content"><div class="box"><h2>الأعضاء</h2><button class="submit secondary" onclick="loadMembers()">تحديث</button><div id="membersTable" class="table-wrap"></div></div></div>
+<div id="admins" class="content super-only"><div class="box"><h2>إدارة الأدمن</h2><div class="form-grid"><input id="adminName" placeholder="الاسم"><input id="adminUsername" placeholder="اسم الدخول"><input id="adminPassword" type="password" placeholder="كلمة المرور"><select id="adminRole"><option value="super">ادمن كامل</option><option value="editor">محرر</option><option value="viewer">مشاهد</option></select></div><button class="submit" onclick="addAdminUser()">إضافة</button><div id="adminMsg"></div><div id="adminsTable" class="table-wrap"></div></div></div>
+</div></div>
 
-  <div class="topbar">
-    <div class="container">
-      <a href="tel:+21332233730">الهاتف: 032233730</a>
-      <a href="mailto:associationdjawahir@gmail.com">associationdjawahir@gmail.com</a>
-      <a href="https://www.facebook.com/profile.php?id=100077249114611" target="_blank" rel="noopener">فيسبوك الجمعية</a>
-    </div>
-  </div>
-
-  <header class="nav">
-    <div class="container">
-   <a href="https://aljawahirdev.github.io/home/" class="brand" aria-label="جمعية الجواهر بقمار">
-  
-  <img class="logo"
-       src="https://drive.google.com/thumbnail?id=1mN39uinRmOQGj04B5OfC9ZTPtlXyF1mb&sz=w1000"
-       alt="شعار جمعية الجواهر بقمار" />
-
-  <h1>
-    جمعية الجواهر بقمار
-    <span>Association Al-Djawahir Guemar</span>
-  </h1>
-
-</a>
-      <nav class="menu" aria-label="قائمة صفحة اللجان">
-        <a href="#committees">اللجان</a>
-        <a href="#details">بطاقات اللجان</a>
-        <a href="#activities">أنشطة اللجان</a>
-        <a href="#gallery">معرض اللجان</a>
-        <a href="#contact">التواصل</a>
-      </nav>
-      <a class="btn btn-primary" href="#committees">استكشف اللجان</a>
-    </div>
-  </header>
-
-  <main id="home">
-    <section class="hero">
-      <div class="container hero-grid">
-        <div>
-          <span class="eyebrow">صفحة مخصصة باللجان فقط</span>
-          <h2>لجان تعمل بتكامل لخدمة <span>المجتمع</span></h2>
-          <p>مساحة تعريفية مخصصة للجان جمعية الجواهر بقمار، تعرض مهام كل لجنة، أنشطتها، آليات التواصل معها، ومعرض صور خاص بمبادرات اللجان.</p>
-          <div class="hero-actions">
-            <a class="btn btn-primary" href="#details">عرض اللجان</a>
-            <a class="btn btn-outline" href="#gallery">معرض الصور</a>
-          </div>
-        </div>
-        <div class="hero-panel">
-          <div class="hero-panel-inner">
-            <div class="floating-box"><strong>منظومة لجان متكاملة</strong><span>كل لجنة لها دور واضح، نشاط ميداني، وأثر إنساني. <b class="badge-highlight">معًا نصنع الأثر.</b></span></div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <div class="quick-nav">
-      <div class="container quick-grid">
-        <a class="quick-link" href="#health">الصحة والإسعاف</a>
-        <a class="quick-link" href="#social">الشؤون الاجتماعية</a>
-        <a class="quick-link" href="#peace">الإصلاح ذات البين</a>
-        <a class="quick-link" href="#youth">الشباب والمقاولاتية</a>
-        <a class="quick-link" href="#media">الإعلام والتوثيق</a>
-        <a class="quick-link" href="#women">المرأة والأسرة</a>
-      </div>
-    </div>
-
-    <section class="committee-tabs-section" id="committees">
-      <div class="container">
-        <div class="section-head">
-          <span class="eyebrow">انتقالات داخل الصفحة</span>
-          <h3>اللجان وأنشطتها المباشرة</h3>
-          <p>اختر اللجنة لعرض تعريف سريع ومجموعة الأنشطة المرتبطة بها دون مغادرة الصفحة.</p>
-        </div>
-        <div class="committee-tabs" role="tablist" aria-label="تبويبات اللجان">
-          <button class="tab-btn is-active" data-tab="tab-health" type="button">الصحة والإسعاف</button>
-          <button class="tab-btn" data-tab="tab-social" type="button">الشؤون الاجتماعية</button>
-          <button class="tab-btn" data-tab="tab-peace" type="button">الإصلاح ذات البين</button>
-          <button class="tab-btn" data-tab="tab-youth" type="button">الشباب والمقاولاتية</button>
-          <button class="tab-btn" data-tab="tab-media" type="button">الإعلام والتوثيق</button>
-          <button class="tab-btn" data-tab="tab-women" type="button">المرأة والأسرة</button>
-          <button class="tab-btn" data-tab="tab-env" type="button">البيئة والنظافة</button>
-        </div>
-
-        <article class="committee-panel is-active" id="tab-health">
-          <div class="panel-grid"><div><span class="panel-icon"><svg><use href="#i-health"></use></svg></span><h4>لجنة الصحة والإسعاف</h4><p>تعنى بالمبادرات الصحية، مرافقة المرضى، حملات التبرع بالدم، وتنظيم خدمات الإسعاف حسب الإمكانيات.</p></div><ul class="activity-list"><li>تنظيم حملات التبرع بالدم.</li><li>إعارة اللوازم الطبية للمرضى والمحتاجين.</li><li>المرافقة الصحية والتوعية الوقائية.</li><li>التنسيق مع المصالح الصحية والمتطوعين.</li></ul></div>
-        </article>
-        <article class="committee-panel" id="tab-social">
-          <div class="panel-grid"><div><span class="panel-icon"><svg><use href="#i-social"></use></svg></span><h4>لجنة الشؤون الاجتماعية</h4><p>تتابع الحالات الاجتماعية، تنظم المبادرات التضامنية، وتعمل على توجيه الدعم إلى مستحقيه.</p></div><ul class="activity-list"><li>إحصاء ودراسة الحالات المحتاجة.</li><li>تنظيم قوافل ومساعدات اجتماعية.</li><li>زيارات ميدانية وتفقدية.</li><li>متابعة ملفات العائلات بالتنسيق مع المحسنين.</li></ul></div>
-        </article>
-        <article class="committee-panel" id="tab-peace">
-          <div class="panel-grid"><div><span class="panel-icon"><svg><use href="#i-peace"></use></svg></span><h4>لجنة الإصلاح ذات البين</h4><p>لجنة تعنى بنشر ثقافة الصلح والتسامح، والمساهمة في تقريب وجهات النظر داخل المجتمع بالحكمة والسرية.</p></div><ul class="activity-list"><li>جلسات صلح سرية بين الأطراف.</li><li>وساطة اجتماعية لحل النزاعات العائلية والمجتمعية.</li><li>تنظيم لقاءات توعوية حول التسامح وحسن الجوار.</li><li>التنسيق مع أهل الخبرة والحكمة عند الحاجة.</li></ul></div>
-        </article>
-        <article class="committee-panel" id="tab-youth">
-          <div class="panel-grid"><div><span class="panel-icon"><svg><use href="#i-youth"></use></svg></span><h4>لجنة الشباب والمقاولاتية</h4><p>تهتم بتنشيط الشباب، دعم المبادرات، وتنمية روح العمل التطوعي والمقاولاتي.</p></div><ul class="activity-list"><li>ورشات تكوينية للشباب.</li><li>مرافقة المبادرات والمشاريع الصغيرة.</li><li>أنشطة ريادية وتحفيزية.</li><li>فتح فرص مشاركة للشباب في العمل الخيري.</li></ul></div>
-        </article>
-        <article class="committee-panel" id="tab-media">
-          <div class="panel-grid"><div><span class="panel-icon"><svg><use href="#i-media"></use></svg></span><h4>لجنة الإعلام والتوثيق</h4><p>تتولى إبراز صورة الجمعية، توثيق الأنشطة، وإدارة المحتوى الإعلامي باحترام الهوية البصرية.</p></div><ul class="activity-list"><li>تصوير وتوثيق أنشطة اللجان.</li><li>إعداد المنشورات والإعلانات.</li><li>إدارة أرشيف الصور والفيديوهات.</li><li>توحيد الخطاب البصري والإعلامي.</li></ul></div>
-        </article>
-        <article class="committee-panel" id="tab-women">
-          <div class="panel-grid"><div><span class="panel-icon"><svg><use href="#i-women"></use></svg></span><h4>لجنة المرأة والأسرة</h4><p>تعمل على دعم الأسرة، تمكين المرأة في المبادرات الخيرية، وتنظيم أنشطة توعوية واجتماعية.</p></div><ul class="activity-list"><li>لقاءات توعوية للأسر.</li><li>مبادرات دعم المرأة والطفل.</li><li>تنظيم ورشات اجتماعية وتربوية.</li><li>مرافقة العائلات في الحالات الخاصة.</li></ul></div>
-        </article>
-        <article class="committee-panel" id="tab-env">
-          <div class="panel-grid"><div><span class="panel-icon"><svg><use href="#i-env"></use></svg></span><h4>لجنة البيئة والنظافة</h4><p>تهتم بالمبادرات البيئية وحملات النظافة والتشجير، وتعزيز ثقافة المحافظة على المحيط.</p></div><ul class="activity-list"><li>حملات تنظيف الأحياء والمرافق.</li><li>مبادرات التشجير والعناية بالمساحات العامة.</li><li>توعية الأطفال والشباب بأهمية البيئة.</li><li>تنسيق مبادرات بيئية مع الشركاء.</li></ul></div>
-        </article>
-      </div>
-    </section>
-
-    <section id="details">
-      <div class="container">
-        <div class="section-head">
-          <span class="eyebrow">بطاقات اللجان</span>
-          <h3>تفاصيل كل لجنة</h3>
-          <p>بطاقات قابلة للفتح في نافذة منبثقة لعرض مهام وأنشطة كل لجنة داخل الصفحة نفسها.</p>
-        </div>
-        <div class="cards">
-          <article class="card" id="health"><div class="icon"><svg><use href="#i-health"></use></svg></div><h4>لجنة الصحة والإسعاف</h4><p>حملات صحية، تبرع بالدم، إسعاف، وإعارة اللوازم الطبية.</p><ul><li>التبرع بالدم</li><li>المرافقة الصحية</li><li>اللوازم الطبية</li></ul><div class="mini-actions"><button class="mini-btn" data-modal-source="health">تفاصيل اللجنة</button></div></article>
-          <article class="card" id="social"><div class="icon"><svg><use href="#i-social"></use></svg></div><h4>لجنة الشؤون الاجتماعية</h4><p>رعاية الحالات الاجتماعية وتنظيم مبادرات التضامن.</p><ul><li>دراسة الحالات</li><li>المساعدات</li><li>الزيارات الميدانية</li></ul><div class="mini-actions"><button class="mini-btn" data-modal-source="social">تفاصيل اللجنة</button></div></article>
-          <article class="card" id="peace"><div class="icon"><svg><use href="#i-peace"></use></svg></div><h4>لجنة الإصلاح ذات البين</h4><p>وساطة اجتماعية، صلح، ونشر ثقافة التسامح.</p><ul><li>جلسات صلح</li><li>وساطة سرية</li><li>لقاءات توعوية</li></ul><div class="mini-actions"><button class="mini-btn" data-modal-source="peace">تفاصيل اللجنة</button></div></article>
-          <article class="card" id="youth"><div class="icon"><svg><use href="#i-youth"></use></svg></div><h4>لجنة الشباب والمقاولاتية</h4><p>دعم الشباب والمبادرات الريادية والعمل التطوعي.</p><ul><li>ورشات تكوين</li><li>مرافقة مشاريع</li><li>أنشطة شبابية</li></ul><div class="mini-actions"><button class="mini-btn" data-modal-source="youth">تفاصيل اللجنة</button></div></article>
-          <article class="card" id="media"><div class="icon"><svg><use href="#i-media"></use></svg></div><h4>لجنة الإعلام والتوثيق</h4><p>توثيق الأنشطة وإدارة المحتوى والمنشورات.</p><ul><li>تصوير</li><li>أرشفة</li><li>إعلانات</li></ul><div class="mini-actions"><button class="mini-btn" data-modal-source="media">تفاصيل اللجنة</button></div></article>
-          <article class="card" id="women"><div class="icon"><svg><use href="#i-women"></use></svg></div><h4>لجنة المرأة والأسرة</h4><p>أنشطة أسرية، توعية اجتماعية، ودعم المرأة والطفل.</p><ul><li>ورشات أسرية</li><li>مبادرات المرأة</li><li>دعم الطفل</li></ul><div class="mini-actions"><button class="mini-btn" data-modal-source="women">تفاصيل اللجنة</button></div></article>
-          <article class="card" id="environment"><div class="icon"><svg><use href="#i-env"></use></svg></div><h4>لجنة البيئة والنظافة</h4><p>حملات نظافة، تشجير، وتوعية بيئية.</p><ul><li>تنظيف</li><li>تشجير</li><li>توعية</li></ul><div class="mini-actions"><button class="mini-btn" data-modal-source="environment">تفاصيل اللجنة</button></div></article>
-          <article class="card" id="training"><div class="icon"><svg><use href="#i-committee"></use></svg></div><h4>لجنة التكوين والتأطير</h4><p>تكوين المتطوعين وتأطير فرق العمل داخل اللجان.</p><ul><li>دورات داخلية</li><li>تأطير المتطوعين</li><li>دليل إجراءات</li></ul><div class="mini-actions"><button class="mini-btn" data-modal-source="training">تفاصيل اللجنة</button></div></article>
-          <article class="card" id="events"><div class="icon"><svg><use href="#i-gallery"></use></svg></div><h4>لجنة التنظيم والفعاليات</h4><p>تحضير المناسبات، تنسيق الفرق، وإدارة الفعاليات الميدانية.</p><ul><li>تنظيم الحملات</li><li>توزيع المهام</li><li>إدارة الفعاليات</li></ul><div class="mini-actions"><button class="mini-btn" data-modal-source="events">تفاصيل اللجنة</button></div></article>
-        </div>
-      </div>
-    </section>
-
-    <section class="activities-map" id="activities">
-      <div class="container">
-        <div class="section-head"><span class="eyebrow">أنشطة اللجان</span><h3>أمثلة على الأنشطة المقترحة</h3><p>يمكن ربط كل نشاط بلجنة مسؤولة، مع إمكانية تعديل النصوص حسب البرنامج الرسمي للجمعية.</p></div>
-        <div class="activity-grid">
-          <div class="activity-box"><strong>حملة تبرع بالدم</strong><span>لجنة الصحة والإسعاف + الإعلام والتوثيق</span></div>
-          <div class="activity-box"><strong>قافلة تضامنية</strong><span>لجنة الشؤون الاجتماعية + التنظيم والفعاليات</span></div>
-          <div class="activity-box"><strong>جلسة صلح مجتمعية</strong><span>لجنة الإصلاح ذات البين</span></div>
-          <div class="activity-box"><strong>ورشة شباب ومقاولاتية</strong><span>لجنة الشباب والمقاولاتية + التكوين</span></div>
-          <div class="activity-box"><strong>حملة نظافة وتشجير</strong><span>لجنة البيئة والنظافة</span></div>
-          <div class="activity-box"><strong>لقاء أسري توعوي</strong><span>لجنة المرأة والأسرة</span></div>
-          <div class="activity-box"><strong>دورة تأطير المتطوعين</strong><span>لجنة التكوين والتأطير</span></div>
-          <div class="activity-box"><strong>تغطية إعلامية للأنشطة</strong><span>لجنة الإعلام والتوثيق</span></div>
-        </div>
-      </div>
-    </section>
-
-<section id="gallery">
-  <div class="container">
-    <div class="section-head">
-      <span class="eyebrow">معرض الصور للجان</span>
-      <h3>توثيق بصري لأنشطة اللجان</h3>
-      <p>معرض مخصص للجان فقط، ويمكن استبدال الصور بصور كل لجنة عند توفرها.</p>
-    </div>
-
-    <div class="gallery">
-
-      <!-- الصور الجديدة (Google Drive فقط) -->
-
-      <div class="gallery-item" data-title="نشاط الجمعية"
-        style="background-image:url('https://drive.google.com/thumbnail?id=15wGXcoOhhcZp0weVYGA5ubJH36m_ibx6&sz=w1000')"></div>
-
-      <div class="gallery-item" data-title="نشاط الجمعية"
-        style="background-image:url('https://drive.google.com/thumbnail?id=1IebzFT4nL_LuUxQjIx1J53oA_TbDIwrj&sz=w1000')"></div>
-
-      <div class="gallery-item" data-title="نشاط الجمعية"
-        style="background-image:url('https://drive.google.com/thumbnail?id=1JEtBp5y5Pyii-1zmSl6gvnMd6LraKy5B&sz=w1000')"></div>
-
-      <div class="gallery-item" data-title="نشاط الجمعية"
-        style="background-image:url('https://drive.google.com/thumbnail?id=1C_Ra3LAb8ISzpcS1xM3aStlmVi8AHPDq&sz=w1000')"></div>
-
-      <div class="gallery-item" data-title="نشاط الجمعية"
-        style="background-image:url('https://drive.google.com/thumbnail?id=1O5oLCJZCgFkoskgLFTNk8kPEVlZct0d_&sz=w1000')"></div>
-
-      <div class="gallery-item" data-title="نشاط الجمعية"
-        style="background-image:url('https://drive.google.com/thumbnail?id=1xEaUTn01c9yC60GKUTZwgmuV07WxRkcT&sz=w1000')"></div>
-
-      <div class="gallery-item" data-title="نشاط الجمعية"
-        style="background-image:url('https://drive.google.com/thumbnail?id=1rdTv83uiyh6uZ_hgv3i6q5X1lKZ1Bucs&sz=w1000')"></div>
-
-    </div>
-  </div>
-</section>
-      
-    <section id="contact">
-      <div class="container">
-        <div class="cta-band">
-          <div><h3>هل تريد الانضمام إلى إحدى اللجان؟</h3><p>تواصل مع الجمعية لاختيار اللجنة المناسبة والمشاركة في خدمة المجتمع.</p></div>
-          <a class="btn" href="https://aljawahirdev.github.io/Engagement/">طلب الإنخراط</a>
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <div class="modal" id="committeeModal" aria-hidden="true">
-    <div class="modal-backdrop" data-modal-close></div>
-    <div class="modal-dialog" role="dialog" aria-modal="true" tabindex="-1">
-      <button class="modal-close" type="button" aria-label="إغلاق النافذة" data-modal-close>×</button>
-      <div id="modalBody"></div>
-    </div>
-  </div>
-
-  <footer>
-    <div class="container footer-grid">
-      <div><h4>لجان جمعية الجواهر بقمار</h4><p>صفحة مخصصة للتعريف باللجان، أنشطتها، ومعرضها البصري.</p></div>
-      <div><h4>روابط اللجان</h4><p><a href="#committees">اللجان</a></p><p><a href="#activities">أنشطة اللجان</a></p><p><a href="#gallery">معرض الصور</a></p></div>
-      <div><h4>التواصل</h4><p><a href="tel:+21332233730">032233730</a></p><p><a href="mailto:associationdjawahir@gmail.com">associationdjawahir@gmail.com</a></p><p><a href="https://www.facebook.com/profile.php?id=100077249114611" target="_blank" rel="noopener">Facebook</a></p></div>
-    </div>
-    <div class="container copyright">جميع الحقوق محفوظة © جمعية الجواهر بقمار <span id="year"></span></div>
-  </footer>
-
-  <script>
-    document.getElementById('year').textContent = new Date().getFullYear();
-
-    const tabButtons = document.querySelectorAll('.tab-btn');
-    const panels = document.querySelectorAll('.committee-panel');
-    tabButtons.forEach((btn) => {
-      btn.addEventListener('click', () => {
-        tabButtons.forEach((b) => b.classList.remove('is-active'));
-        panels.forEach((panel) => panel.classList.remove('is-active'));
-        btn.classList.add('is-active');
-        document.getElementById(btn.dataset.tab)?.classList.add('is-active');
-      });
-    });
-
-    const modal = document.getElementById('committeeModal');
-    const modalBody = document.getElementById('modalBody');
-    const modalDialog = modal.querySelector('.modal-dialog');
-    let lastFocusedElement = null;
-
-    const defaultGalleryImages = [
-  "https://drive.google.com/thumbnail?id=15wGXcoOhhcZp0weVYGA5ubJH36m_ibx6&sz=w1000",
-  "https://drive.google.com/thumbnail?id=1IebzFT4nL_LuUxQjIx1J53oA_TbDIwrj&sz=w1000",
-  "https://drive.google.com/thumbnail?id=1JEtBp5y5Pyii-1zmSl6gvnMd6LraKy5B&sz=w1000",
-  "https://drive.google.com/thumbnail?id=1C_Ra3LAb8ISzpcS1xM3aStlmVi8AHPDq&sz=w1000",
-  "https://drive.google.com/thumbnail?id=1O5oLCJZCgFkoskgLFTNk8kPEVlZct0d_&sz=w1000",
-  "https://drive.google.com/thumbnail?id=1xEaUTn01c9yC60GKUTZwgmuV07WxRkcT&sz=w1000",
-  "https://drive.google.com/thumbnail?id=1rdTv83uiyh6uZ_hgv3i6q5X1lKZ1Bucs&sz=w1000"
-];
-
-    const committeeExtras = {
-      health: { title: "أنشطة لجنة الصحة والإسعاف", activities: ["تنظيم حملات التبرع بالدم.", "إعارة اللوازم الطبية للمرضى والمحتاجين.", "المرافقة الصحية والتوعية الوقائية.", "التنسيق مع المصالح الصحية والمتطوعين."] },
-      social: { title: "أنشطة لجنة الشؤون الاجتماعية", activities: ["إحصاء ودراسة الحالات المحتاجة.", "تنظيم قوافل ومساعدات اجتماعية.", "زيارات ميدانية وتفقدية.", "متابعة ملفات العائلات بالتنسيق مع المحسنين."] },
-      peace: { title: "أنشطة لجنة الإصلاح ذات البين", activities: ["جلسات صلح سرية بين الأطراف.", "وساطة اجتماعية لحل النزاعات العائلية والمجتمعية.", "لقاءات توعوية حول التسامح وحسن الجوار.", "التنسيق مع أهل الخبرة والحكمة عند الحاجة."] },
-      youth: { title: "أنشطة لجنة الشباب والمقاولاتية", activities: ["ورشات تكوينية للشباب.", "مرافقة المبادرات والمشاريع الصغيرة.", "أنشطة ريادية وتحفيزية.", "فتح فرص مشاركة للشباب في العمل الخيري."] },
-      media: { title: "أنشطة لجنة الإعلام والتوثيق", activities: ["تصوير وتوثيق أنشطة اللجان.", "إعداد المنشورات والإعلانات.", "إدارة أرشيف الصور والفيديوهات.", "توحيد الخطاب البصري والإعلامي."] },
-      women: { title: "أنشطة لجنة المرأة والأسرة", activities: ["لقاءات توعوية للأسر.", "مبادرات دعم المرأة والطفل.", "تنظيم ورشات اجتماعية وتربوية.", "مرافقة العائلات في الحالات الخاصة."] },
-      environment: { title: "أنشطة لجنة البيئة والنظافة", activities: ["حملات تنظيف الأحياء والمرافق.", "مبادرات التشجير والعناية بالمساحات العامة.", "توعية الأطفال والشباب بأهمية البيئة.", "تنسيق مبادرات بيئية مع الشركاء."] },
-      training: { title: "أنشطة لجنة التكوين والتأطير", activities: ["تنظيم دورات داخلية للمتطوعين.", "إعداد أدلة مبسطة لسير العمل.", "تأطير فرق اللجان أثناء المبادرات.", "متابعة احتياجات التكوين والتحسين."] },
-      events: { title: "أنشطة لجنة التنظيم والفعاليات", activities: ["تحضير فضاءات الأنشطة والفعاليات.", "توزيع المهام على الفرق المشاركة.", "تنسيق الاستقبال والتوجيه أثناء الحملات.", "متابعة اللوجستيك قبل وبعد النشاط."] }
-    };
-
-    function buildActivitiesBlock(extra) {
-      if (!extra) return "";
-      return `<div class="modal-activities"><h5>${extra.title}</h5><ul class="activity-list">${extra.activities.map(item => `<li>${item}</li>`).join("")}</ul></div>`;
-    }
-
-    function buildGalleryBlock(sourceId) {
-      const images = defaultGalleryImages.slice(0, 6);
-      return `<div class="modal-gallery-wrap"><h5>صور من أنشطة اللجنة</h5><div class="modal-gallery-grid">${images.map((src, index) => `<img src="${src}" alt="صورة ${index + 1} من أنشطة ${sourceId}" loading="lazy">`).join("")}</div></div>`;
-    }
-
-    function openModal(sourceId) {
-      const source = document.getElementById(sourceId);
-      if (!source) return;
-      lastFocusedElement = document.activeElement;
-      modalBody.innerHTML = source.innerHTML + buildActivitiesBlock(committeeExtras[sourceId]) + buildGalleryBlock(sourceId);
-      modal.classList.add('is-open');
-      modal.setAttribute('aria-hidden', 'false');
-      document.body.classList.add('modal-open');
-      modalDialog.focus();
-    }
-
-    function closeModal() {
-      modal.classList.remove('is-open');
-      modal.setAttribute('aria-hidden', 'true');
-      document.body.classList.remove('modal-open');
-      modalBody.innerHTML = '';
-      if (lastFocusedElement) lastFocusedElement.focus();
-    }
-
-    document.querySelectorAll('[data-modal-source]').forEach((btn) => {
-      btn.addEventListener('click', () => openModal(btn.dataset.modalSource));
-    });
-    document.querySelectorAll('[data-modal-close]').forEach((el) => el.addEventListener('click', closeModal));
-    document.addEventListener('keydown', (event) => { if (event.key === 'Escape' && modal.classList.contains('is-open')) closeModal(); });
-  </script>
+<script>
+const APPS_SCRIPT_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbxfMo4HKr93TtwiOcyHhWhBtXFxX25j1-h40vktSzSCdchLz-XJQv_gB_4OpVuKajBX/exec'; // ⚠️ ضع رابط النشر الجديد
+let sessionToken = localStorage.getItem('membership_session_token') || '', currentAdmin = JSON.parse(localStorage.getItem('membership_current_admin') || 'null'), currentReport = null;
+async function apiRequest(action, args) { const res = await fetch(APPS_SCRIPT_WEB_APP_URL, { method: 'POST', headers: { 'Content-Type': 'text/plain' }, body: JSON.stringify({ action, args: args || [] }) }); const json = await res.json(); if (!json.ok) throw new Error(json.error); return json.data; }
+const google = { script: { run: new Proxy({}, { get(t, prop) { if (prop === 'withSuccessHandler') return cb => new Proxy({}, { get(tt, p2) { return (...args) => apiRequest(p2, args).then(cb).catch(console.error); } }); return (...args) => apiRequest(prop, args).catch(console.error); } }) } };
+function showTab(id, btn) { if (id === 'admins' && currentAdmin?.role !== 'super') return alert('غير مسموح'); document.querySelectorAll('.content').forEach(c => c.classList.remove('active')); document.getElementById(id).classList.add('active'); document.querySelectorAll('.sidebar button').forEach(b => b.classList.remove('current')); if (btn) btn.classList.add('current'); }
+function setMsg(id, text, type) { document.getElementById(id).innerHTML = `<div class="${type}">${text}</div>`; }
+function login() { google.script.run.withSuccessHandler(res => { sessionToken = res.token; currentAdmin = res.admin; localStorage.setItem('membership_session_token', sessionToken); localStorage.setItem('membership_current_admin', JSON.stringify(currentAdmin)); loginScreen.style.display = 'none'; appShell.style.display = 'block'; applyRoleUI(); renderReport(res.report); }).withFailureHandler(e => setMsg('loginMsg', e.message, 'error')).loginAdmin({ username: loginUsername.value, password: loginPassword.value }); }
+function logout() { google.script.run.withSuccessHandler(() => { localStorage.clear(); location.reload(); }).logoutAdmin(sessionToken); }
+function applyRoleUI() { adminBadge.textContent = currentAdmin.name + ' | ' + currentAdmin.roleLabel; document.querySelectorAll('.super-only').forEach(x => x.style.display = currentAdmin.role === 'super' ? 'block' : 'none'); }
+function loadReport(manual) { if (manual) syncStatus.textContent = 'جاري التحميل...'; google.script.run.withSuccessHandler(r => renderReport(r)).withFailureHandler(e => syncStatus.textContent = e.message).getMembershipReport(); }
+function renderReport(r) { currentReport = r; syncStatus.textContent = new Date().toLocaleString('ar-DZ'); document.querySelectorAll('.brand-logo').forEach(i => i.src = r.identity.logoUrl); totalMembers.textContent = r.totals.total; activeMembers.textContent = r.totals.active; pendingRequests.textContent = r.pendingRequests.length; totalValue.textContent = r.totals.value.toLocaleString() + ' دج'; pendingTable.innerHTML = pendingRequestsTable(r.pendingRequests.slice(0,5)); recentMembersTable.innerHTML = membersTable(r.members.slice(0,5), true); if(document.getElementById('requestsTable')) loadRequests(); if(document.getElementById('membersTable')) loadMembers(); }
+function pendingRequestsTable(rows) { if(!rows.length) return '<p>لا توجد طلبات</p>'; return `<table><tr><th>#</th><th>الاسم</th><th>الهاتف</th><th>النوع</th><th>الحالة</th><th>إجراء</th></tr>${rows.map(r => `<tr><td>${r.requestNo}</td><td>${r.firstName} ${r.lastName}</td><td>${r.phone}</td><td>${r.membershipType}</td><td>${r.status}</td><td><button class="mini" onclick="approveReq('${r.requestNo}')">قبول</button> <button class="mini danger" onclick="rejectReq('${r.requestNo}')">رفض</button></td></tr>`).join('')}</table>`; }
+function membersTable(rows, simple) { if(!rows.length) return '<p>لا يوجد أعضاء</p>'; return `<table><tr><th>رقم العضوية</th><th>الاسم</th><th>الهاتف</th><th>النوع</th><th>الحالة</th>${!simple?'<th>طباعة</th>':''}</tr>${rows.map(m => `<tr><td>${m.memberId}</td><td>${m.firstName} ${m.lastName}</td><td>${m.phone}</td><td>${m.membershipType}</td><td>${m.status}</td>${!simple?`<td><button class="mini" onclick="printCard('${m.memberId}')">🖨️ طباعة البطاقة</button></td>`:''}</tr>`).join('')}</table>`; }
+function requestsTableHtml(rows) { if(!rows.length) return '<p>لا توجد طلبات</p>'; return `<table><tr><th>#</th><th>الاسم</th><th>الهاتف</th><th>النوع</th><th>تاريخ الطلب</th><th>الحالة</th><th>صور</th><th>إجراء</th></tr>${rows.map(r => `<tr><td>${r.requestNo}</td><td>${r.firstName} ${r.lastName}</td><td>${r.phone}</td><td>${r.membershipType}</td><td>${r.createdAt}</td><td>${r.status}</td><td><a href="${r.photoUrl}" target="_blank">📷</a> <a href="${r.docFrontUrl}" target="_blank">🪪</a></td><td>${r.status === 'قيد الانتظار' && currentAdmin?.role !== 'viewer' ? `<button class="mini" onclick="approveReq('${r.requestNo}')">قبول</button> <button class="mini danger" onclick="rejectReq('${r.requestNo}')">رفض</button>` : ''}</td></tr>`).join('')}</table>`; }
+function loadRequests() { if(!currentReport) return; document.getElementById('requestsTable').innerHTML = requestsTableHtml(currentReport.requests); }
+function loadMembers() { if(!currentReport) return; document.getElementById('membersTable').innerHTML = membersTable(currentReport.members, false); }
+function approveReq(no) { if(!confirm('تأكيد قبول الطلب؟')) return; google.script.run.withSuccessHandler(r => { loadReport(true); }).withFailureHandler(e => alert(e.message)).approveMembershipRequest(no, sessionToken); }
+function rejectReq(no) { if(!confirm('رفض الطلب؟')) return; google.script.run.withSuccessHandler(r => { loadReport(true); }).withFailureHandler(e => alert(e.message)).rejectMembershipRequest(no, sessionToken); }
+function printCard(memberId) { google.script.run.withSuccessHandler(m => { const win = window.open('', '_blank'); win.document.write(`
+<html dir="rtl"><head><title>بطاقة العضوية</title><link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet"><style>body{font-family:Cairo;padding:20px;background:#eee}.card{max-width:400px;margin:auto;background:white;border-radius:24px;overflow:hidden;box-shadow:0 12px 30px #0002;direction:rtl}.header{background:linear-gradient(135deg,#2986B0,#1d5f7d);color:white;padding:20px;text-align:center}.header img{width:80px;height:80px;border-radius:50%;border:3px solid white;margin-bottom:10px}.content{padding:20px}.row{display:flex;justify-content:space-between;border-bottom:1px solid #eee;padding:12px 0}.label{font-weight:700;color:#2986B0}.qrcode{text-align:center;padding:15px;background:#f5f5f5;margin-top:15px;border-radius:12px}.footer{background:#f9f9f9;padding:12px;text-align:center;font-size:12px;color:#777}@media print{body{background:white}.card{box-shadow:none}}</style></head><body><div class="card"><div class="header"><img src="${currentReport.identity.logoUrl}"><h2>بطاقة العضوية</h2><h3>${m.memberId}</h3></div><div class="content"><div class="row"><span class="label">الاسم:</span><span>${m.firstName} ${m.lastName}</span></div><div class="row"><span class="label">نوع العضوية:</span><span>${m.membershipType}</span></div><div class="row"><span class="label">تاريخ التسجيل:</span><span>${m.createdAt}</span></div><div class="row"><span class="label">الحالة:</span><span>${m.status === 'نشط' ? '✔️ نشط' : '⛔ موقوف'}</span></div><div class="qrcode">🔹 رمز QR للتحقق 🔹<br><small>${m.memberId}</small></div></div><div class="footer">جمعية الجواهر بقمار - نظام العضوية الرسمي</div></div><script>window.print()<\/script></body></html>`); }).withFailureHandler(e => alert(e.message)).getMemberCardData(memberId, sessionToken); }
+function loadAdmins() { if(currentAdmin?.role !== 'super') return; google.script.run.withSuccessHandler(list => { adminsTable.innerHTML = `<table><tr><th>الاسم</th><th>الدخول</th><th>الصلاحية</th><th>نشط</th><th>إجراء</th></tr>${list.map(a => `<tr><td><input id="n_${a.id}" value="${a.name}"></td><td><input id="u_${a.id}" value="${a.username}"></td><td><select id="r_${a.id}"><option ${a.role==='super'?'selected':''}>super</option><option ${a.role==='editor'?'selected':''}>editor</option><option ${a.role==='viewer'?'selected':''}>viewer</option></select></td><td><select id="a_${a.id}"><option ${a.active?'selected':''}>true</option><option ${!a.active?'selected':''}>false</option></select><input id="p_${a.id}" placeholder="pass"></td><td><button onclick="saveAdmin('${a.id}')">حفظ</button> <button onclick="deleteAdmin('${a.id}')">حذف</button></td></tr>`).join('')}</table>`; }).withFailureHandler(e => setMsg('adminMsg', e.message, 'error')).listAdmins(sessionToken); }
+function addAdminUser() { google.script.run.withSuccessHandler(() => loadAdmins()).withFailureHandler(e => setMsg('adminMsg', e.message, 'error')).addAdmin({ name: adminName.value, username: adminUsername.value, password: adminPassword.value, role: adminRole.value }, sessionToken); }
+function saveAdmin(id) { google.script.run.withSuccessHandler(res => { if(res.currentAdmin) currentAdmin = res.currentAdmin; loadAdmins(); }).withFailureHandler(e => alert(e.message)).updateAdmin({ id, name: document.getElementById('n_'+id).value, username: document.getElementById('u_'+id).value, password: document.getElementById('p_'+id).value, role: document.getElementById('r_'+id).value, active: document.getElementById('a_'+id).value === 'true' }, sessionToken); }
+function deleteAdmin(id) { if(confirm('حذف؟')) google.script.run.withSuccessHandler(() => loadAdmins()).withFailureHandler(e => alert(e.message)).deleteAdmin(id, sessionToken); }
+window.onload = () => { if(APPS_SCRIPT_WEB_APP_URL !== 'ضع_رابط_التطبيق_هنا' && sessionToken && currentAdmin) { loginScreen.style.display = 'none'; appShell.style.display = 'block'; applyRoleUI(); loadReport(true); } };
+</script>
 </body>
 </html>
